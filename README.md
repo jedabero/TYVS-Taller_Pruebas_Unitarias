@@ -1,4 +1,70 @@
+# Taller de Pruebas Unitarias - Adaptación TypeScript
+
+Este repositorio es una adaptación en TypeScript del taller de pruebas unitarias y desarrollo dirigido por pruebas (TDD). El objetivo académico se mantiene: practicar pruebas unitarias, TDD, AAA (Arrange-Act-Assert), Given-When-Then, cobertura, evidencia de ejecución y documentación del proceso.
+
+La adaptación se realiza porque el entorno local de desarrollo en WSL no permite usar Java/Maven. Por esa razón, el taller se preparó para ejecutarse con Node.js, TypeScript, pnpm y Vitest.
+
+## Mapeo Tecnológico
+
+| Taller original | Adaptación TypeScript |
+|-----------------|-----------------------|
+| Java | TypeScript |
+| Maven | pnpm |
+| JUnit | Vitest |
+| JaCoCo | Vitest Coverage V8 |
+| `mvn clean test` | `pnpm test` |
+| `mvn test jacoco:report` | `pnpm coverage` |
+
+## Configuración Local
+
+Requisitos:
+
+- Node.js 22 LTS
+- Corepack habilitado
+- pnpm, gestionado por Corepack según `packageManager`
+
+Instalar dependencias:
+
+```bash
+corepack enable
+pnpm install
+```
+
+## Scripts Disponibles
+
+| Script | Descripción |
+|--------|-------------|
+| `pnpm test` | Ejecuta Vitest una vez. |
+| `pnpm test:watch` | Ejecuta Vitest en modo observación. |
+| `pnpm coverage` | Ejecuta Vitest con cobertura V8. |
+| `pnpm typecheck` | Ejecuta verificación estricta de TypeScript sin emitir archivos. |
+
+## Integración Continua
+
+El workflow de GitHub Actions se encuentra en `.github/workflows/ci.yml` y se ejecuta en `push` y `pull_request`.
+
+La CI usa Ubuntu latest, Node.js 22 LTS y pnpm mediante Corepack. Sus pasos principales son:
+
+```bash
+pnpm install --frozen-lockfile
+pnpm typecheck
+pnpm test
+pnpm coverage
+```
+
+## Estado de la Adaptación
+
+Esta fase solo prepara el repositorio para empezar el trabajo de TDD en TypeScript. La implementación del dominio y las pruebas reales del taller se harán en la siguiente fase.
+
+El archivo `tests/setup.test.ts` contiene únicamente una prueba de humo para verificar que TypeScript y Vitest funcionan correctamente. Esta prueba no valida reglas del dominio y no debe presentarse como parte de la evidencia final de TDD.
+
+Los documentos en `docs/` son plantillas iniciales para registrar ciclos TDD, matriz de pruebas y cobertura cuando comience la implementación real.
+
+---
+
 # Taller de Pruebas Unitarias - Desarrollo dirigido por pruebas (TDD)
+
+La siguiente sección conserva el contenido académico original del taller como referencia.
 
 Este taller adapta el enfoque clásico de **TDD** (Red → Green → Refactor) a una **Arquitectura Limpia (Clean Architecture)**. El objetivo es que las **pruebas unitarias** garanticen la calidad del **dominio** sin acoplarse a frameworks o infraestructura.
 

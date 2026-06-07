@@ -1,0 +1,28 @@
+{
+  "name": "tyvs-taller-pruebas-unitarias",
+  "version": "1.0.0",
+  "description": "TypeScript adaptation of the unit testing workshop for TDD practice.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "coverage": "vitest run --coverage",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "testing",
+    "tdd",
+    "typescript",
+    "vitest"
+  ],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.13.1",
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "@vitest/coverage-v8": "^3.2.0",
+    "typescript": "^5.8.0",
+    "vitest": "^3.2.0"
+  }
+}
