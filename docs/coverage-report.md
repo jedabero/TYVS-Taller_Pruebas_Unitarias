@@ -10,9 +10,16 @@ pnpm coverage
 
 ## Configuration
 
-The configured report formats are text, HTML, and LCOV. Reports are written to the `coverage` directory.
+The coverage configuration is in `vitest.config.ts`.
 
-The configured thresholds in `vitest.config.ts` are:
+| Setting | Value |
+|---------|-------|
+| Provider | `v8` |
+| Reporters | `text`, `html`, `lcov` |
+| Reports directory | `coverage` |
+| Included files | `src/**/*.ts` |
+
+Configured thresholds:
 
 | Metric | Threshold |
 |--------|-----------|
@@ -21,18 +28,30 @@ The configured thresholds in `vitest.config.ts` are:
 | Statements | 80% |
 | Branches | 75% |
 
-## Final Result
+## Actual Result
 
-Executed during Phase 9 after real domain tests were implemented.
+Executed locally during final delivery validation.
 
 ```txt
 Test Files  2 passed (2)
-Tests       15 passed (15)
+Tests       17 passed (17)
 
-Statements : 100% (30/30)
-Branches   : 100% (18/18)
-Functions  : 100% (5/5)
-Lines      : 100% (28/28)
+Statements   : 100% ( 30/30 )
+Branches     : 100% ( 18/18 )
+Functions    : 100% ( 5/5 )
+Lines        : 100% ( 28/28 )
 ```
 
 All configured coverage thresholds passed.
+
+## HTML Report
+
+The generated HTML report is available locally at:
+
+```txt
+coverage/index.html
+```
+
+## Uncovered Code
+
+No uncovered lines or branches were reported by the final `pnpm coverage` execution.

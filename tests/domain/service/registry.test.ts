@@ -72,6 +72,28 @@ describe("Registry", () => {
     });
   });
 
+  describe("GivenLivingPersonAtMinimumAge", () => {
+    describe("WhenRegisteringVoter", () => {
+      it("shouldReturnUnderage", () => {
+        // Arrange
+        const registry = new Registry();
+        const person: Person = {
+          name: "Jamie Brooks",
+          id: 1010,
+          age: 0,
+          gender: Gender.UNIDENTIFIED,
+          alive: true,
+        };
+
+        // Act
+        const result = registry.registerVoter(person);
+
+        // Assert
+        expect(result).toBe(RegisterResult.UNDERAGE);
+      });
+    });
+  });
+
   describe("GivenLivingPersonWithNegativeAge", () => {
     describe("WhenRegisteringVoter", () => {
       it("shouldReturnInvalidAge", () => {
@@ -112,6 +134,28 @@ describe("Registry", () => {
 
         // Assert
         expect(result).toBe(RegisterResult.INVALID_AGE);
+      });
+    });
+  });
+
+  describe("GivenLivingPersonAtMaximumAge", () => {
+    describe("WhenRegisteringVoter", () => {
+      it("shouldReturnValid", () => {
+        // Arrange
+        const registry = new Registry();
+        const person: Person = {
+          name: "Robin Lake",
+          id: 1011,
+          age: 120,
+          gender: Gender.UNIDENTIFIED,
+          alive: true,
+        };
+
+        // Act
+        const result = registry.registerVoter(person);
+
+        // Assert
+        expect(result).toBe(RegisterResult.VALID);
       });
     });
   });
