@@ -1,12 +1,12 @@
 import { describe, expect, it } from "vitest";
 
-import { Gender } from "../../../src/domain/model/gender.js";
-import type { Person } from "../../../src/domain/model/person.js";
-import { RegisterResult } from "../../../src/domain/model/register-result.js";
-import { Registry } from "../../../src/domain/service/registry.js";
+import { Gender } from "../../../src/domain/model/gender.ts";
+import type { Person } from "../../../src/domain/model/person.ts";
+import { RegisterResult } from "../../../src/domain/model/register-result.ts";
+import { Registry } from "../../../src/domain/service/registry.ts";
 
 describe("Registry", () => {
-  it("shouldReturnValidGivenLivingAdultWithUniqueDocumentWhenRegisteringVoter", () => {
+  describe("GivenLivingAdultWithUniqueDocument", () => {
     // Arrange
     const registry = new Registry();
     const person: Person = {
@@ -14,13 +14,14 @@ describe("Registry", () => {
       id: 1001,
       age: 18,
       gender: Gender.UNIDENTIFIED,
-      alive: true
+      alive: true,
     };
+    it("shouldReturnValidWhenRegisteringVoter", () => {
+      // Act
+      const result = registry.registerVoter(person);
 
-    // Act
-    const result = registry.registerVoter(person);
-
-    // Assert
-    expect(result).toBe(RegisterResult.VALID);
+      // Assert
+      expect(result).toBe(RegisterResult.VALID);
+    });
   });
 });
