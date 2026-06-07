@@ -115,4 +115,48 @@ describe("Registry", () => {
       });
     });
   });
+
+  describe("GivenLivingPersonWithZeroId", () => {
+    describe("WhenRegisteringVoter", () => {
+      it("shouldReturnInvalid", () => {
+        // Arrange
+        const registry = new Registry();
+        const person: Person = {
+          name: "Morgan Blake",
+          id: 0,
+          age: 30,
+          gender: Gender.UNIDENTIFIED,
+          alive: true,
+        };
+
+        // Act
+        const result = registry.registerVoter(person);
+
+        // Assert
+        expect(result).toBe(RegisterResult.INVALID);
+      });
+    });
+  });
+
+  describe("GivenLivingPersonWithNegativeId", () => {
+    describe("WhenRegisteringVoter", () => {
+      it("shouldReturnInvalid", () => {
+        // Arrange
+        const registry = new Registry();
+        const person: Person = {
+          name: "Avery Stone",
+          id: -1,
+          age: 30,
+          gender: Gender.UNIDENTIFIED,
+          alive: true,
+        };
+
+        // Act
+        const result = registry.registerVoter(person);
+
+        // Assert
+        expect(result).toBe(RegisterResult.INVALID);
+      });
+    });
+  });
 });

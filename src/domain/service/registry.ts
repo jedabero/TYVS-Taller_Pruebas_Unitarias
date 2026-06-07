@@ -3,6 +3,10 @@ import { RegisterResult } from "../model/register-result.ts";
 
 export class Registry {
   registerVoter(person: Person): RegisterResult {
+    if (person.id <= 0) {
+      return RegisterResult.INVALID;
+    }
+
     if (person.alive === false) {
       return RegisterResult.DEAD;
     }

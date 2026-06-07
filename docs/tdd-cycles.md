@@ -236,3 +236,69 @@ No se realizo refactor. La implementacion ya era minima, explicita y mantenia el
 ### Result
 
 Cycle 4 is complete. Only invalid age equivalence classes and boundary values `-1` and `121` were implemented after failing tests.
+
+## Cycle 5: Invalid Id Equivalence Classes And Boundary Values
+
+### Requirement
+
+Registrar una persona con documento/id menor o igual que 0 debe retornar `INVALID`.
+
+### Given-When-Then
+
+Given a living person with adult age, unique document, and id outside the accepted positive range.
+When the person is registered as a voter.
+Then the registration result should be `INVALID`.
+
+### Equivalence Classes
+
+| Class | Representative | Expected Result |
+|-------|----------------|-----------------|
+| Zero id | `0` | `INVALID` |
+| Negative id | `-1` | `INVALID` |
+
+### Boundary Values
+
+| Boundary | Id | Expected Result | Evidence |
+|----------|----|-----------------|----------|
+| Invalid zero boundary | `0` | `INVALID` | Cycle 5 |
+| Invalid negative representative | `-1` | `INVALID` | Cycle 5 |
+| Positive id representative | `1001` | `VALID` | Cycle 1 |
+
+### RED Summary
+
+Se agregaron dos escenarios a `tests/domain/service/registry.test.ts` con comentarios AAA:
+
+| Scenario | Id | RED Failure |
+|----------|----|-------------|
+| `GivenLivingPersonWithZeroId` / `WhenRegisteringVoter` / `shouldReturnInvalid` | `0` | Expected `INVALID`, received `VALID` |
+| `GivenLivingPersonWithNegativeId` / `WhenRegisteringVoter` / `shouldReturnInvalid` | `-1` | Expected `INVALID`, received `VALID` |
+
+### GREEN Summary
+
+Se actualizo `src/domain/service/registry.ts` con la regla minima:
+
+```ts
+if (person.id <= 0) {
+  return RegisterResult.INVALID;
+}
+```
+
+La regla se ubico antes de la validacion de persona fallecida y antes de las validaciones de edad para cumplir la precedencia del dominio.
+
+No se implementaron reglas para duplicados, `null` o `undefined`.
+
+### REFACTOR Summary
+
+No se realizo refactor. La implementacion ya era minima y mantenia el orden de precedencia requerido.
+
+### Commands Executed
+
+| Step | Command | Result |
+|------|---------|--------|
+| RED | `pnpm test` | Failed for expected invalid-id assertions |
+| GREEN | `pnpm typecheck` | Passed |
+| GREEN | `pnpm test` | Passed, 8 tests |
+
+### Result
+
+Cycle 5 is complete. Only invalid id equivalence classes and boundary values `0` and `-1` were implemented after failing tests.
