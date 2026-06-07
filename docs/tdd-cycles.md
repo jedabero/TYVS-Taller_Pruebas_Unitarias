@@ -302,3 +302,67 @@ No se realizo refactor. La implementacion ya era minima y mantenia el orden de p
 ### Result
 
 Cycle 5 is complete. Only invalid id equivalence classes and boundary values `0` and `-1` were implemented after failing tests.
+
+## Cycle 6: Duplicated Voter Registration Rule
+
+### Requirement
+
+Registrar nuevamente un documento/id ya registrado debe retornar `DUPLICATED`.
+
+### Given-When-Then
+
+Given a voter document that was already registered successfully.
+When the same document is registered again.
+Then the registration result should be `DUPLICATED`.
+
+### Stateful Behavior
+
+Este ciclo valida comportamiento con estado en memoria. La prueba reutiliza la misma instancia de `Registry` intencionalmente porque la deteccion de duplicados depende de los documentos registrados previamente.
+
+### RED Summary
+
+Se agrego el escenario `GivenPreviouslyRegisteredVoter` / `WhenRegisteringSameDocumentAgain` / `shouldReturnDuplicated` a `tests/domain/service/registry.test.ts` con comentarios AAA.
+
+El comando `pnpm test` fallo porque el segundo registro todavia retornaba `VALID`:
+
+```txt
+AssertionError: expected 'VALID' to be 'DUPLICATED'
+```
+
+### GREEN Summary
+
+Se actualizo `src/domain/service/registry.ts` con almacenamiento en memoria para documentos registrados:
+
+```ts
+private readonly registeredIds = new Set<number>();
+```
+
+Luego de validar id, estado de vida, edad invalida y menor de edad, se agrego la regla minima:
+
+```ts
+if (this.registeredIds.has(person.id)) {
+  return RegisterResult.DUPLICATED;
+}
+
+this.registeredIds.add(person.id);
+```
+
+Solo los votantes validos quedan registrados en memoria.
+
+No se implementaron reglas para `null` o `undefined`.
+
+### REFACTOR Summary
+
+No se realizo refactor. La implementacion en memoria con `Set<number>` era minima, explicita y suficiente para este ciclo.
+
+### Commands Executed
+
+| Step | Command | Result |
+|------|---------|--------|
+| RED | `pnpm test` | Failed for expected `VALID` vs `DUPLICATED` assertion |
+| GREEN | `pnpm typecheck` | Passed |
+| GREEN | `pnpm test` | Passed, 9 tests |
+
+### Result
+
+Cycle 6 is complete. Only duplicated voter registration with in-memory state was implemented after the failing test.

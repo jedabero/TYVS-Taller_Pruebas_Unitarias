@@ -159,4 +159,28 @@ describe("Registry", () => {
       });
     });
   });
+
+  describe("GivenPreviouslyRegisteredVoter", () => {
+    describe("WhenRegisteringSameDocumentAgain", () => {
+      it("shouldReturnDuplicated", () => {
+        // Arrange
+        const registry = new Registry();
+        const person: Person = {
+          name: "Sam Carter",
+          id: 1006,
+          age: 30,
+          gender: Gender.UNIDENTIFIED,
+          alive: true,
+        };
+
+        registry.registerVoter(person);
+
+        // Act
+        const result = registry.registerVoter(person);
+
+        // Assert
+        expect(result).toBe(RegisterResult.DUPLICATED);
+      });
+    });
+  });
 });

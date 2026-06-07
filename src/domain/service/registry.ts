@@ -2,6 +2,8 @@ import type { Person } from "../model/person.ts";
 import { RegisterResult } from "../model/register-result.ts";
 
 export class Registry {
+  private readonly registeredIds = new Set<number>();
+
   registerVoter(person: Person): RegisterResult {
     if (person.id <= 0) {
       return RegisterResult.INVALID;
@@ -18,6 +20,12 @@ export class Registry {
     if (person.age < 18) {
       return RegisterResult.UNDERAGE;
     }
+
+    if (this.registeredIds.has(person.id)) {
+      return RegisterResult.DUPLICATED;
+    }
+
+    this.registeredIds.add(person.id);
 
     return RegisterResult.VALID;
   }
