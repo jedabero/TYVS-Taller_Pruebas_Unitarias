@@ -6,14 +6,14 @@ The real domain implementation and real domain unit tests are implemented in thi
 
 ## Technology Mapping
 
-| Original Workshop | TypeScript Adaptation |
-|-------------------|-----------------------|
-| Java | TypeScript |
-| Maven | pnpm |
-| JUnit | Vitest |
-| JaCoCo | Vitest Coverage V8 |
-| `mvn clean test` | `pnpm test` |
-| `mvn test jacoco:report` | `pnpm coverage` |
+| Original Workshop        | TypeScript Adaptation |
+| ------------------------ | --------------------- |
+| Java                     | TypeScript            |
+| Maven                    | pnpm                  |
+| JUnit                    | Vitest                |
+| JaCoCo                   | Vitest Coverage V8    |
+| `mvn clean test`         | `pnpm test`           |
+| `mvn test jacoco:report` | `pnpm coverage`       |
 
 ## Domain
 
@@ -78,12 +78,12 @@ pnpm install
 
 ## Available Scripts
 
-| Script | Purpose |
-|--------|---------|
-| `pnpm typecheck` | Runs TypeScript checking without emitting files. |
-| `pnpm test` | Runs the Vitest test suite once. |
-| `pnpm test:watch` | Runs Vitest in watch mode. |
-| `pnpm coverage` | Runs Vitest with V8 coverage. |
+| Script            | Purpose                                          |
+| ----------------- | ------------------------------------------------ |
+| `pnpm typecheck`  | Runs TypeScript checking without emitting files. |
+| `pnpm test`       | Runs the Vitest test suite once.                 |
+| `pnpm test:watch` | Runs Vitest in watch mode.                       |
+| `pnpm coverage`   | Runs Vitest with V8 coverage.                    |
 
 ## Continuous Integration
 

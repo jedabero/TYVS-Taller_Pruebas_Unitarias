@@ -12,21 +12,21 @@ pnpm coverage
 
 The coverage configuration is in `vitest.config.ts`.
 
-| Setting | Value |
-|---------|-------|
-| Provider | `v8` |
-| Reporters | `text`, `html`, `lcov` |
-| Reports directory | `coverage` |
-| Included files | `src/**/*.ts` |
+| Setting           | Value                  |
+| ----------------- | ---------------------- |
+| Provider          | `v8`                   |
+| Reporters         | `text`, `html`, `lcov` |
+| Reports directory | `coverage`             |
+| Included files    | `src/**/*.ts`          |
 
 Configured thresholds:
 
-| Metric | Threshold |
-|--------|-----------|
-| Lines | 80% |
-| Functions | 80% |
-| Statements | 80% |
-| Branches | 75% |
+| Metric     | Threshold |
+| ---------- | --------- |
+| Lines      | 80%       |
+| Functions  | 80%       |
+| Statements | 80%       |
+| Branches   | 75%       |
 
 ## Actual Result
 

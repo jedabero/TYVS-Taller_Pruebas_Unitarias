@@ -4,5 +4,5 @@ export enum RegisterResult {
   INVALID = "INVALID",
   DEAD = "DEAD",
   UNDERAGE = "UNDERAGE",
-  INVALID_AGE = "INVALID_AGE"
+  INVALID_AGE = "INVALID_AGE",
 }
