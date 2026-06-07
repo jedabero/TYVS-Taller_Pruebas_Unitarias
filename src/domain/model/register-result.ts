@@ -1,0 +1,8 @@
+export enum RegisterResult {
+  VALID = "VALID",
+  DUPLICATED = "DUPLICATED",
+  INVALID = "INVALID",
+  DEAD = "DEAD",
+  UNDERAGE = "UNDERAGE",
+  INVALID_AGE = "INVALID_AGE"
+}
