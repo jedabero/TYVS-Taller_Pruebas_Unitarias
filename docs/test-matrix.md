@@ -18,3 +18,26 @@ The test matrix is built incrementally through the TDD cycles.
 | RV-012 | Preserve dead status precedence | Multiple invalid conditions | Age `121` with dead status | Dead person with id `1007`, age `121`, gender `UNIDENTIFIED` | Registering voter | Dead status wins over invalid age | `DEAD` | Implemented |
 | RV-013 | Preserve invalid age precedence | Multiple invalid conditions | Age `-1`, also underage | Living person with id `1008`, age `-1`, gender `UNIDENTIFIED` | Registering voter | Invalid age wins over underage | `INVALID_AGE` | Implemented |
 | RV-014 | Preserve underage before duplicate | Rejected voter is not registered | Repeated underage document | Living underage person with id `1009`, age `17`, gender `UNIDENTIFIED`, registered twice | Registering same document again | Underage remains underage, not duplicated | `UNDERAGE` | Implemented |
+
+## Final Rule Coverage Summary
+
+| Business Rule | Matrix Evidence |
+|---------------|-----------------|
+| Null person returns `INVALID` | RV-009 |
+| Undefined person returns `INVALID` | RV-010 |
+| Invalid id returns `INVALID` | RV-006, RV-007 |
+| Dead person returns `DEAD` | RV-002 |
+| Invalid age returns `INVALID_AGE` | RV-004, RV-005 |
+| Underage person returns `UNDERAGE` | RV-003 |
+| Duplicated id returns `DUPLICATED` | RV-008 |
+| Valid voter returns `VALID` | RV-001 |
+| Rule precedence is preserved | RV-011, RV-012, RV-013, RV-014 |
+
+## Boundary And Equivalence Evidence
+
+| Topic | Evidence |
+|-------|----------|
+| Adult age boundary `17/18` | RV-003 and RV-001 |
+| Invalid age boundaries `-1/121` | RV-004 and RV-005 |
+| Invalid id classes `0/-1` | RV-006 and RV-007 |
+| Missing person classes `null/undefined` | RV-009 and RV-010 |
