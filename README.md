@@ -19,7 +19,7 @@ La adaptación se realiza porque el entorno local de desarrollo en WSL no permit
 
 Requisitos:
 
-- Node.js 22 LTS
+- Node.js 24
 - Corepack habilitado
 - pnpm, gestionado por Corepack según `packageManager`
 
@@ -43,7 +43,7 @@ pnpm install
 
 El workflow de GitHub Actions se encuentra en `.github/workflows/ci.yml` y se ejecuta en `push` y `pull_request`.
 
-La CI usa Ubuntu latest, Node.js 22 LTS y pnpm mediante Corepack. Sus pasos principales son:
+La CI usa Ubuntu latest, Node.js 24 y pnpm mediante Corepack. Sus pasos principales son:
 
 ```bash
 pnpm install --frozen-lockfile
