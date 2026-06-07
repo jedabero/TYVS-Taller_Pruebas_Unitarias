@@ -425,3 +425,59 @@ No se realizo refactor. La validacion era minima, directa y necesaria para prese
 ### Result
 
 Cycle 7 is complete. Only null and undefined person validation was implemented after failing tests.
+
+## Cycle 8: Rule Precedence Tests And Refactor
+
+### Requirement
+
+Cuando una persona cumple varias condiciones de rechazo, el resultado debe respetar la precedencia definida por el dominio.
+
+### Given-When-Then
+
+Given a person that matches more than one business rule.
+When the person is registered as a voter.
+Then the registration result should match the highest-priority applicable rule.
+
+### Rule Precedence Covered
+
+| Precedence Case | Expected Result |
+|-----------------|-----------------|
+| Invalid id before dead status | `INVALID` |
+| Dead status before invalid age | `DEAD` |
+| Invalid age before underage | `INVALID_AGE` |
+| Underage before duplicate registration | `UNDERAGE` |
+
+### Characterization Summary
+
+Este ciclo no forzo un RED artificial. La implementacion existente ya seguia la precedencia requerida, por lo que se agregaron pruebas de caracterizacion antes del refactor.
+
+Se agregaron cuatro escenarios a `tests/domain/service/registry.test.ts` con comentarios AAA:
+
+| Scenario | Purpose | Result |
+|----------|---------|--------|
+| `GivenDeadPersonWithInvalidId` / `WhenRegisteringVoter` / `shouldReturnInvalid` | Proves invalid id wins over dead status | Passed |
+| `GivenDeadPersonWithInvalidAge` / `WhenRegisteringVoter` / `shouldReturnDead` | Proves dead status wins over invalid age | Passed |
+| `GivenLivingPersonWithNegativeUnderage` / `WhenRegisteringVoter` / `shouldReturnInvalidAge` | Proves invalid age wins over underage | Passed |
+| `GivenPreviouslyRejectedUnderageVoter` / `WhenRegisteringSameDocumentAgain` / `shouldReturnUnderage` | Proves rejected underage voters are not registered as duplicates | Passed |
+
+### Refactor Summary
+
+Se refactorizo `src/domain/service/registry.ts` para extraer solo la transicion de votante valido:
+
+```ts
+private registerValidVoter(person: Person): RegisterResult
+```
+
+Las validaciones y su orden quedaron explicitas dentro de `registerVoter`. El metodo privado concentra la logica de duplicados y registro en memoria.
+
+### Commands Executed
+
+| Step | Command | Result |
+|------|---------|--------|
+| Characterization | `pnpm test` | Passed, 15 tests |
+| Refactor | `pnpm typecheck` | Passed |
+| Refactor | `pnpm test` | Passed, 15 tests |
+
+### Result
+
+Cycle 8 is complete. Rule precedence is covered by characterization tests, and the registry was refactored without changing behavior.

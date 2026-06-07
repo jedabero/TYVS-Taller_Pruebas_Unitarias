@@ -213,4 +213,94 @@ describe("Registry", () => {
       });
     });
   });
+
+  describe("GivenDeadPersonWithInvalidId", () => {
+    describe("WhenRegisteringVoter", () => {
+      it("shouldReturnInvalid", () => {
+        // Arrange
+        const registry = new Registry();
+        const person: Person = {
+          name: "Invalid Dead",
+          id: 0,
+          age: 30,
+          gender: Gender.UNIDENTIFIED,
+          alive: false,
+        };
+
+        // Act
+        const result = registry.registerVoter(person);
+
+        // Assert
+        expect(result).toBe(RegisterResult.INVALID);
+      });
+    });
+  });
+
+  describe("GivenDeadPersonWithInvalidAge", () => {
+    describe("WhenRegisteringVoter", () => {
+      it("shouldReturnDead", () => {
+        // Arrange
+        const registry = new Registry();
+        const person: Person = {
+          name: "Dead Invalid Age",
+          id: 1007,
+          age: 121,
+          gender: Gender.UNIDENTIFIED,
+          alive: false,
+        };
+
+        // Act
+        const result = registry.registerVoter(person);
+
+        // Assert
+        expect(result).toBe(RegisterResult.DEAD);
+      });
+    });
+  });
+
+  describe("GivenLivingPersonWithNegativeUnderage", () => {
+    describe("WhenRegisteringVoter", () => {
+      it("shouldReturnInvalidAge", () => {
+        // Arrange
+        const registry = new Registry();
+        const person: Person = {
+          name: "Negative Underage",
+          id: 1008,
+          age: -1,
+          gender: Gender.UNIDENTIFIED,
+          alive: true,
+        };
+
+        // Act
+        const result = registry.registerVoter(person);
+
+        // Assert
+        expect(result).toBe(RegisterResult.INVALID_AGE);
+      });
+    });
+  });
+
+  describe("GivenPreviouslyRejectedUnderageVoter", () => {
+    describe("WhenRegisteringSameDocumentAgain", () => {
+      it("shouldReturnUnderage", () => {
+        // Arrange
+        const registry = new Registry();
+        const person: Person = {
+          name: "Underage Duplicate",
+          id: 1009,
+          age: 17,
+          gender: Gender.UNIDENTIFIED,
+          alive: true,
+        };
+
+        registry.registerVoter(person);
+
+        // Act
+        const result = registry.registerVoter(person);
+
+        // Assert
+        expect(result).toBe(RegisterResult.UNDERAGE);
+      });
+    });
+  });
 });

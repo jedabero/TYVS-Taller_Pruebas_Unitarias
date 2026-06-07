@@ -25,6 +25,10 @@ export class Registry {
       return RegisterResult.UNDERAGE;
     }
 
+    return this.registerValidVoter(person);
+  }
+
+  private registerValidVoter(person: Person): RegisterResult {
     if (this.registeredIds.has(person.id)) {
       return RegisterResult.DUPLICATED;
     }
