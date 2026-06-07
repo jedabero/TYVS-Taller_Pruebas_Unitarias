@@ -12,3 +12,5 @@ The test matrix is built incrementally through the TDD cycles.
 | RV-006 | Reject zero id | Invalid id at zero boundary | Id `0`, non-positive boundary | Living person with id `0`, age `30`, gender `UNIDENTIFIED`, unique document | Registering voter | Result is invalid | `INVALID` | Implemented |
 | RV-007 | Reject negative id | Invalid negative id | Id `-1`, negative representative | Living person with id `-1`, age `30`, gender `UNIDENTIFIED`, unique document | Registering voter | Result is invalid | `INVALID` | Implemented |
 | RV-008 | Reject duplicated voter | Already registered valid document | Not applicable | Previously registered living adult with id `1006`, age `30`, gender `UNIDENTIFIED` | Registering same document again | Result is duplicated | `DUPLICATED` | Implemented |
+| RV-009 | Reject null person | Missing person input | Not applicable | `null` person | Registering voter | Result is invalid | `INVALID` | Implemented |
+| RV-010 | Reject undefined person | Missing person input | Not applicable | `undefined` person | Registering voter | Result is invalid | `INVALID` | Implemented |

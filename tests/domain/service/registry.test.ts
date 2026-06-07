@@ -183,4 +183,34 @@ describe("Registry", () => {
       });
     });
   });
+
+  describe("GivenNullPerson", () => {
+    describe("WhenRegisteringVoter", () => {
+      it("shouldReturnInvalid", () => {
+        // Arrange
+        const registry = new Registry();
+
+        // Act
+        const result = registry.registerVoter(null);
+
+        // Assert
+        expect(result).toBe(RegisterResult.INVALID);
+      });
+    });
+  });
+
+  describe("GivenUndefinedPerson", () => {
+    describe("WhenRegisteringVoter", () => {
+      it("shouldReturnInvalid", () => {
+        // Arrange
+        const registry = new Registry();
+
+        // Act
+        const result = registry.registerVoter(undefined);
+
+        // Assert
+        expect(result).toBe(RegisterResult.INVALID);
+      });
+    });
+  });
 });

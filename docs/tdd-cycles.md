@@ -366,3 +366,62 @@ No se realizo refactor. La implementacion en memoria con `Set<number>` era minim
 ### Result
 
 Cycle 6 is complete. Only duplicated voter registration with in-memory state was implemented after the failing test.
+
+## Cycle 7: Null And Undefined Person Validation
+
+### Requirement
+
+Registrar una persona `null` o `undefined` debe retornar `INVALID`.
+
+### Given-When-Then
+
+Given a missing person input.
+When the person is registered as a voter.
+Then the registration result should be `INVALID`.
+
+### Rule Precedence
+
+La validacion de `null` y `undefined` debe ocurrir primero. Esto evita acceder a campos como `id`, `alive` o `age` cuando no existe una persona.
+
+### RED Summary
+
+Se agregaron dos escenarios a `tests/domain/service/registry.test.ts` con comentarios AAA:
+
+| Scenario | Input | RED Failure |
+|----------|-------|-------------|
+| `GivenNullPerson` / `WhenRegisteringVoter` / `shouldReturnInvalid` | `null` | `TypeError: Cannot read properties of null (reading 'id')` |
+| `GivenUndefinedPerson` / `WhenRegisteringVoter` / `shouldReturnInvalid` | `undefined` | `TypeError: Cannot read properties of undefined (reading 'id')` |
+
+### GREEN Summary
+
+Se amplio la firma de `Registry.registerVoter` para aceptar entradas ausentes:
+
+```ts
+registerVoter(person: Person | null | undefined): RegisterResult
+```
+
+Se agrego la regla minima al inicio del metodo:
+
+```ts
+if (person == null) {
+  return RegisterResult.INVALID;
+}
+```
+
+El uso de `person == null` cubre tanto `null` como `undefined`.
+
+### REFACTOR Summary
+
+No se realizo refactor. La validacion era minima, directa y necesaria para preservar la precedencia del dominio.
+
+### Commands Executed
+
+| Step | Command | Result |
+|------|---------|--------|
+| RED | `pnpm test` | Failed with expected null/undefined `TypeError` failures |
+| GREEN | `pnpm typecheck` | Passed |
+| GREEN | `pnpm test` | Passed, 11 tests |
+
+### Result
+
+Cycle 7 is complete. Only null and undefined person validation was implemented after failing tests.

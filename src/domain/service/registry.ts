@@ -4,7 +4,11 @@ import { RegisterResult } from "../model/register-result.ts";
 export class Registry {
   private readonly registeredIds = new Set<number>();
 
-  registerVoter(person: Person): RegisterResult {
+  registerVoter(person: Person | null | undefined): RegisterResult {
+    if (person == null) {
+      return RegisterResult.INVALID;
+    }
+
     if (person.id <= 0) {
       return RegisterResult.INVALID;
     }
