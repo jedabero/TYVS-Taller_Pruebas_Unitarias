@@ -49,4 +49,26 @@ describe("Registry", () => {
       });
     });
   });
+
+  describe("GivenLivingUnderagePerson", () => {
+    describe("WhenRegisteringVoter", () => {
+      it("shouldReturnUnderage", () => {
+        // Arrange
+        const registry = new Registry();
+        const person: Person = {
+          name: "Taylor Kim",
+          id: 1003,
+          age: 17,
+          gender: Gender.UNIDENTIFIED,
+          alive: true,
+        };
+
+        // Act
+        const result = registry.registerVoter(person);
+
+        // Assert
+        expect(result).toBe(RegisterResult.UNDERAGE);
+      });
+    });
+  });
 });

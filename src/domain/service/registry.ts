@@ -7,6 +7,10 @@ export class Registry {
       return RegisterResult.DEAD;
     }
 
+    if (person.age < 18) {
+      return RegisterResult.UNDERAGE;
+    }
+
     return RegisterResult.VALID;
   }
 }

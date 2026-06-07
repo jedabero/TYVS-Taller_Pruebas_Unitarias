@@ -6,3 +6,4 @@ The test matrix is built incrementally through the TDD cycles.
 |----|-------------|-------------------|----------------|-------|------|------|-----------------|--------|
 | RV-001 | Register valid voter | Valid living adult with unique document | Age `18` as first adult value | Living person with id `1001`, age `18`, gender `UNIDENTIFIED`, unique document | Registering voter | Result is valid | `VALID` | Implemented |
 | RV-002 | Reject dead person | Dead person with otherwise valid registration data | Not applicable | Dead person with id `1002`, age `30`, gender `UNIDENTIFIED`, unique document | Registering voter | Result is dead | `DEAD` | Implemented |
+| RV-003 | Reject underage voter | Living minor with otherwise valid registration data | Age `17`, paired with age `18` in RV-001 | Living person with id `1003`, age `17`, gender `UNIDENTIFIED`, unique document | Registering voter | Result is underage | `UNDERAGE` | Implemented |
