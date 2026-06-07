@@ -16,7 +16,7 @@ Then the registration result should be `VALID`.
 
 ### RED Summary
 
-Se creo `tests/domain/service/registry.test.ts` con el escenario `shouldReturnValidGivenLivingAdultWithUniqueDocumentWhenRegisteringVoter` usando comentarios AAA.
+Se creo `tests/domain/service/registry.test.ts` con el escenario `GivenLivingAdultWithUniqueDocument` / `WhenRegisteringVoter` / `shouldReturnValid` usando comentarios AAA.
 
 El comando `pnpm test` fallo porque todavia no existian los archivos del dominio:
 
@@ -56,3 +56,55 @@ No se realizo refactor. No habia una mejora clara que no anticipara reglas futur
 ### Result
 
 Cycle 1 is complete. Only the valid voter happy path was implemented.
+
+## Cycle 2: Dead Person Rule
+
+### Requirement
+
+Registrar una persona fallecida debe retornar `DEAD`.
+
+### Given-When-Then
+
+Given a dead person with valid id, valid adult age, and a unique document.
+When the person is registered as a voter.
+Then the registration result should be `DEAD`.
+
+### RED Summary
+
+Se agrego el escenario `GivenDeadPerson` / `WhenRegisteringVoter` / `shouldReturnDead` a `tests/domain/service/registry.test.ts` con comentarios AAA.
+
+El comando `pnpm test` fallo porque `Registry.registerVoter` todavia retornaba `VALID`:
+
+```txt
+AssertionError: expected 'VALID' to be 'DEAD'
+```
+
+### GREEN Summary
+
+Se actualizo `src/domain/service/registry.ts` con la regla minima:
+
+```ts
+if (person.alive === false) {
+  return RegisterResult.DEAD;
+}
+```
+
+No se implementaron reglas para id invalido, edad invalida, menor de edad, duplicados, `null` o `undefined`.
+
+### REFACTOR Summary
+
+Se refactorizaron las pruebas para usar bloques BDD anidados con nombres cortos en `it`, manteniendo el Arrange dentro de cada prueba, una instancia propia de `Registry` por prueba y comentarios AAA.
+
+### Commands Executed
+
+| Step | Command | Result |
+|------|---------|--------|
+| RED | `pnpm test` | Failed for expected `VALID` vs `DEAD` assertion |
+| GREEN | `pnpm typecheck` | Passed |
+| GREEN | `pnpm test` | Passed, 3 tests |
+| REFACTOR | `pnpm typecheck` | Passed |
+| REFACTOR | `pnpm test` | Passed, 3 tests |
+
+### Result
+
+Cycle 2 is complete. Only the dead person rule was implemented after the failing test.

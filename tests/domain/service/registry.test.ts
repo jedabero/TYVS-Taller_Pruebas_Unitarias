@@ -7,21 +7,46 @@ import { Registry } from "../../../src/domain/service/registry.ts";
 
 describe("Registry", () => {
   describe("GivenLivingAdultWithUniqueDocument", () => {
-    // Arrange
-    const registry = new Registry();
-    const person: Person = {
-      name: "Alex Morgan",
-      id: 1001,
-      age: 18,
-      gender: Gender.UNIDENTIFIED,
-      alive: true,
-    };
-    it("shouldReturnValidWhenRegisteringVoter", () => {
-      // Act
-      const result = registry.registerVoter(person);
+    describe("WhenRegisteringVoter", () => {
+      it("shouldReturnValid", () => {
+        // Arrange
+        const registry = new Registry();
+        const person: Person = {
+          name: "Alex Morgan",
+          id: 1001,
+          age: 18,
+          gender: Gender.UNIDENTIFIED,
+          alive: true,
+        };
 
-      // Assert
-      expect(result).toBe(RegisterResult.VALID);
+        // Act
+        const result = registry.registerVoter(person);
+
+        // Assert
+        expect(result).toBe(RegisterResult.VALID);
+      });
+    });
+  });
+
+  describe("GivenDeadPerson", () => {
+    describe("WhenRegisteringVoter", () => {
+      it("shouldReturnDead", () => {
+        // Arrange
+        const registry = new Registry();
+        const person: Person = {
+          name: "Jordan Lee",
+          id: 1002,
+          age: 30,
+          gender: Gender.UNIDENTIFIED,
+          alive: false,
+        };
+
+        // Act
+        const result = registry.registerVoter(person);
+
+        // Assert
+        expect(result).toBe(RegisterResult.DEAD);
+      });
     });
   });
 });
