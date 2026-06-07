@@ -71,4 +71,48 @@ describe("Registry", () => {
       });
     });
   });
+
+  describe("GivenLivingPersonWithNegativeAge", () => {
+    describe("WhenRegisteringVoter", () => {
+      it("shouldReturnInvalidAge", () => {
+        // Arrange
+        const registry = new Registry();
+        const person: Person = {
+          name: "Casey Rivera",
+          id: 1004,
+          age: -1,
+          gender: Gender.UNIDENTIFIED,
+          alive: true,
+        };
+
+        // Act
+        const result = registry.registerVoter(person);
+
+        // Assert
+        expect(result).toBe(RegisterResult.INVALID_AGE);
+      });
+    });
+  });
+
+  describe("GivenLivingPersonOlderThanMaximumAge", () => {
+    describe("WhenRegisteringVoter", () => {
+      it("shouldReturnInvalidAge", () => {
+        // Arrange
+        const registry = new Registry();
+        const person: Person = {
+          name: "Riley Chen",
+          id: 1005,
+          age: 121,
+          gender: Gender.UNIDENTIFIED,
+          alive: true,
+        };
+
+        // Act
+        const result = registry.registerVoter(person);
+
+        // Assert
+        expect(result).toBe(RegisterResult.INVALID_AGE);
+      });
+    });
+  });
 });

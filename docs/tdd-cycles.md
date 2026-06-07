@@ -169,3 +169,70 @@ No se realizo refactor. La implementacion ya era minima y legible para este cicl
 ### Result
 
 Cycle 3 is complete. Only the underage voter rule for the 17/18 boundary was implemented after the failing test.
+
+## Cycle 4: Invalid Age Equivalence Classes And Boundary Values
+
+### Requirement
+
+Registrar una persona viva con edad menor que 0 o mayor que 120 debe retornar `INVALID_AGE`.
+
+### Given-When-Then
+
+Given a living person with valid id, unique document, and age outside the accepted range.
+When the person is registered as a voter.
+Then the registration result should be `INVALID_AGE`.
+
+### Equivalence Classes
+
+| Class | Representative | Expected Result |
+|-------|----------------|-----------------|
+| Negative age | `-1` | `INVALID_AGE` |
+| Age greater than maximum | `121` | `INVALID_AGE` |
+
+### Boundary Values
+
+| Boundary | Age | Expected Result | Evidence |
+|----------|-----|-----------------|----------|
+| Just below minimum valid age | `-1` | `INVALID_AGE` | Cycle 4 |
+| Just above maximum valid age | `121` | `INVALID_AGE` | Cycle 4 |
+| Adult threshold below | `17` | `UNDERAGE` | Cycle 3 |
+| Adult threshold | `18` | `VALID` | Cycle 1 |
+
+### RED Summary
+
+Se agregaron dos escenarios a `tests/domain/service/registry.test.ts` con comentarios AAA:
+
+| Scenario | Age | RED Failure |
+|----------|-----|-------------|
+| `GivenLivingPersonWithNegativeAge` / `WhenRegisteringVoter` / `shouldReturnInvalidAge` | `-1` | Expected `INVALID_AGE`, received `UNDERAGE` |
+| `GivenLivingPersonOlderThanMaximumAge` / `WhenRegisteringVoter` / `shouldReturnInvalidAge` | `121` | Expected `INVALID_AGE`, received `VALID` |
+
+### GREEN Summary
+
+Se actualizo `src/domain/service/registry.ts` con la regla minima:
+
+```ts
+if (person.age < 0 || person.age > 120) {
+  return RegisterResult.INVALID_AGE;
+}
+```
+
+La regla se ubico despues de la validacion de persona fallecida y antes de la validacion de menor de edad para preservar la precedencia del dominio.
+
+No se implementaron reglas para id invalido, duplicados, `null` o `undefined`.
+
+### REFACTOR Summary
+
+No se realizo refactor. La implementacion ya era minima, explicita y mantenia el orden de precedencia requerido.
+
+### Commands Executed
+
+| Step | Command | Result |
+|------|---------|--------|
+| RED | `pnpm test` | Failed for expected invalid-age assertions |
+| GREEN | `pnpm typecheck` | Passed |
+| GREEN | `pnpm test` | Passed, 6 tests |
+
+### Result
+
+Cycle 4 is complete. Only invalid age equivalence classes and boundary values `-1` and `121` were implemented after failing tests.
